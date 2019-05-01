@@ -73,7 +73,7 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faTimes, faCircle } from "@fortawesome/free-solid-svg-icons";
 import Square from "./Square.vue";
-
+import moves from './../api/moves';
 const winContitions = [
     [0,1,2],
     [3,4,5],
@@ -121,7 +121,19 @@ export default {
                     return
                 }
                 this.$emit("turnSwitch");
+                if (this.mode === 'ai') this.handleAiTurn();
             }
+        },
+        handleAiTurn () {
+            this.$emit('toggleLock');
+            moves.getNextMove(this.board).then(response => {
+                this.board = this.board.map((el, index) => index === response.data.index ? this.turn : el);
+                this.$emit('toggleLock');
+                if(this.win()) {
+                    return
+                }
+                this.$emit("turnSwitch");
+            });
         },
         handleReset() {
             this.board = Array(9).fill(0)

@@ -1,16 +1,9 @@
 <template>
     <div :class="$style.wrap">
-        <div
-            :class="{
-                [$style.left]: true,
-                [$style.inactive]: mode === '2Player'
-            }">
-            <FontAwesomeIcon :icon="playerIcon" :class="$style.faTimes" /> 2 player
+        <div :class="{ [$style.left]: true, [$style.inactive]: mode === '2Player' }" @click="setMode('2Player')">
+            <FontAwesomeIcon :icon="playerIcon" :class="$style.faTimes"/> 2 player
         </div>
-        <div
-            :class="{
-                [$style.right]: true,
-            }">
+        <div :class="{ [$style.right]: true,  [$style.inactive]: mode === 'ai'}" @click="setMode('ai')">
             <FontAwesomeIcon :icon="computerIcon" :class="$style.faTimes" /> vs AI
         </div>
     </div>
@@ -39,7 +32,9 @@ export default {
         }
     },
     methods: {
-       
+       setMode(mode) {
+           this.$emit('modeSet', mode);
+       }
     }
 };
 </script>

@@ -42,7 +42,7 @@
                 @toggleLock="handleLockToggle"
                 @setTurnAi="handleSetAIturn"
             />
-            <SplitButton :mode="mode" />
+            <SplitButton :mode="mode" @modeSet="modeSet"/>
             <WinBanner />
             <Button @clicked="resetGame">Reset</Button>
         </div>
@@ -75,10 +75,14 @@ export default {
             mode: "2Player"
         };
     },
-    created: function() {
+    mounted: function() {
         this.resetGame();
     },
     methods: {
+        modeSet(mode) {
+            this.mode = mode;
+            this.resetGame();
+        },
         handleSetAIturn() {
             this.turn = 1
         },
